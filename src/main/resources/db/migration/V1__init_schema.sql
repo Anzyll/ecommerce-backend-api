@@ -1,24 +1,23 @@
 CREATE TABLE roles(
-    role_id SERIAL PRIMARY KEY ,
-    title VARCHAR(100)
+    role_id BIGSERIAL PRIMARY KEY ,
+    title VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE users(
-    user_id SERIAL PRIMARY KEY ,
+    user_id BIGSERIAL PRIMARY KEY ,
     email VARCHAR(255) UNIQUE  NOT NULL ,
-    hashed_password VARCHAR(100),
-    created_at TIMESTAMP NOT NULL ,
-    role_id INT,
+    password VARCHAR(100) NOT NULL ,
+    role_id BIGINT,
     CONSTRAINT fk_role FOREIGN KEY (role_id)
                   REFERENCES roles(role_id) ON DELETE SET NULL
 );
 
 
 CREATE TABLE profiles(
-    profile_id SERIAL PRIMARY KEY ,
+    profile_id BIGSERIAL PRIMARY KEY ,
     full_name VARCHAR(100) NOT NULL ,
-    phone VARCHAR(100),
-    user_id INT UNIQUE ,
+    user_id BIGINT UNIQUE NOT NULL ,
+    created_at TIMESTAMP NOT NULL ,
     CONSTRAINT fk_user FOREIGN KEY (user_id)
                      REFERENCES users(user_id) ON DELETE CASCADE
 );
