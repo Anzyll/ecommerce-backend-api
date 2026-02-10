@@ -12,7 +12,6 @@ CREATE TABLE users(
                   REFERENCES roles(role_id) ON DELETE SET NULL
 );
 
-
 CREATE TABLE profiles(
     profile_id BIGSERIAL PRIMARY KEY ,
     full_name VARCHAR(100) NOT NULL ,

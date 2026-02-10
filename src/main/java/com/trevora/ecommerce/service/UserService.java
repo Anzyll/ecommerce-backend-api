@@ -5,9 +5,7 @@ import com.trevora.ecommerce.entity.User;
 import com.trevora.ecommerce.exception.InvalidCredentialException;
 import com.trevora.ecommerce.exception.UserAlreadyExistsException;
 import com.trevora.ecommerce.repository.UserRepository;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import com.trevora.ecommerce.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public User register(User user,  String password) {
@@ -31,13 +30,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void login(String email,String rawPassword) {
-       User userFound = userRepository.findByEmail(email)
+    public String login(String email,String rawPassword) {
+       User user = userRepository.findByEmail(email)
                        .orElseThrow(InvalidCredentialException::new);
-       if(!passwordEncoder.matches(rawPassword,userFound.getPassword())){
+       if(!passwordEncoder.matches(rawPassword,user.getPassword())){
            throw new InvalidCredentialException();
        }
-
+        return jwtUtil.generateToken(user.getEmail());
     }
 
 }

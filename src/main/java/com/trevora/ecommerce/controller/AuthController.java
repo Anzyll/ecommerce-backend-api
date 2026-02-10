@@ -1,6 +1,7 @@
 package com.trevora.ecommerce.controller;
 
 import com.trevora.ecommerce.dto.LoginRequestDto;
+import com.trevora.ecommerce.dto.LoginResponseDto;
 import com.trevora.ecommerce.dto.RegisterRequestDto;
 import com.trevora.ecommerce.dto.RegisterResponseDto;
 import com.trevora.ecommerce.orchestrator.LoginOrchestrator;
@@ -24,8 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String  login(@Valid @RequestBody LoginRequestDto request){
-        loginOrchestrator.login(request);
-        return "login succesfull";
+    public LoginResponseDto  login(@Valid @RequestBody LoginRequestDto request){
+       return loginOrchestrator.login(request);
     }
 }
