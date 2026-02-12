@@ -26,6 +26,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public LoginResponseDto  login(@Valid @RequestBody LoginRequestDto request){
-       return loginOrchestrator.login(request);
+       return loginOrchestrator.verify(request);
     }
 }

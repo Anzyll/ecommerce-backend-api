@@ -8,7 +8,9 @@ public enum ErrorCode {
     ROLE_NOT_FOUND("role not exist for user",HttpStatus.NOT_FOUND),
     PASSWORD_MISMATCH("password and confirm password do not match",HttpStatus.BAD_REQUEST),
     VALIDATION_ERROR("validation failed",HttpStatus.BAD_REQUEST),
-    INVALID_CREDENTIALS("invalid email or password",HttpStatus.UNAUTHORIZED);
+    INVALID_CREDENTIALS("invalid email or password",HttpStatus.UNAUTHORIZED),
+    PRODUCT_NOT_FOUND("product not found",HttpStatus.NOT_FOUND),
+    USER_NOT_FOUND("user not found",HttpStatus.NOT_FOUND);
 
     private final String message;
     private final HttpStatus status;

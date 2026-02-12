@@ -2,6 +2,7 @@ package com.trevora.ecommerce.service;
 
 import com.trevora.ecommerce.dto.ProductResponseDto;
 import com.trevora.ecommerce.entity.Product;
+import com.trevora.ecommerce.exception.ProductNotFoundException;
 import com.trevora.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,7 +43,7 @@ public class ProductService {
 
     public ProductResponseDto productById(Long productId) {
         Product product= productRepository.findById(productId)
-                .orElseThrow(()-> new RuntimeException("no user found"));
+                .orElseThrow(ProductNotFoundException::new);
         return new ProductResponseDto(
                 product.getProductId(),
                 product.getName(),

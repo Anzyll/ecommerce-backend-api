@@ -4,6 +4,7 @@ import com.trevora.ecommerce.entity.Role;
 import com.trevora.ecommerce.entity.User;
 import com.trevora.ecommerce.exception.InvalidCredentialException;
 import com.trevora.ecommerce.exception.UserAlreadyExistsException;
+import com.trevora.ecommerce.exception.UserNotFoundException;
 import com.trevora.ecommerce.repository.UserRepository;
 import com.trevora.ecommerce.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +29,6 @@ public class UserService {
         Role role = roleService.getDefaultRole();
         user.setRole(role);
         return userRepository.save(user);
-    }
-
-    public String login(String email,String rawPassword) {
-       User user = userRepository.findByEmail(email)
-                       .orElseThrow(InvalidCredentialException::new);
-       if(!passwordEncoder.matches(rawPassword,user.getPassword())){
-           throw new InvalidCredentialException();
-       }
-        return jwtUtil.generateToken(user.getEmail());
     }
 
 }
