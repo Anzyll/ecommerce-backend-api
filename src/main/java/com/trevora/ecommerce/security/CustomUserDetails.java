@@ -1,6 +1,7 @@
 package com.trevora.ecommerce.security;
 
 import com.trevora.ecommerce.entity.User;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,9 +13,15 @@ import java.util.Collection;
 import java.util.Collections;
 
 
+@Getter
 @RequiredArgsConstructor
 public class CustomUserDetails implements UserDetails {
     private  final User user;
+
+    public Long getUserId(){
+        return user.getUserId();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(user.getRole().getTitle()));
