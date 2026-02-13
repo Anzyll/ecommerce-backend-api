@@ -9,7 +9,10 @@ public enum ErrorCode {
     VALIDATION_ERROR("validation failed",HttpStatus.BAD_REQUEST),
     INVALID_CREDENTIALS("invalid email or password",HttpStatus.UNAUTHORIZED),
     PRODUCT_NOT_FOUND("product not found",HttpStatus.NOT_FOUND),
-    USER_NOT_FOUND("user not found",HttpStatus.NOT_FOUND);
+    USER_NOT_FOUND("user not found",HttpStatus.NOT_FOUND),
+    CART_NOT_FOUND("cart not found",HttpStatus.NOT_FOUND),
+    CART_ITEM_NOT_FOUND("item not found",HttpStatus.NOT_FOUND);
+
 
     private final String message;
     private final HttpStatus status;

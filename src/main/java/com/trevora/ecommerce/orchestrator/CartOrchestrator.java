@@ -34,4 +34,25 @@ public class CartOrchestrator {
                 items
         );
     }
+
+    public CartResponseDto removeFromCart(Long userId, Long productId, Integer quantity) {
+        Cart cart = cartService.removeFromCart(
+                userId,
+                productId,
+                quantity
+        );
+        List<CartItemResponseDto> items =
+                cart.getCartItem().stream()
+                        .map(item->new CartItemResponseDto(
+                                item.getId(),
+                                item.getProduct().getName(),
+                                item.getQuantity()
+                        ))
+                        .toList();
+
+        return  new CartResponseDto(
+                cart.getCartId(),
+                items
+        );
+    }
 }
