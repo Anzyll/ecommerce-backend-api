@@ -39,7 +39,7 @@ public class CartService {
                     return ci;
                 });
             item.setQuantity(item.getQuantity()+quantity);
-        return cartRepository.save(cart);
+        return cart;
     }
     private Cart createNewCart(Long userId){
         Cart cart = new Cart();
@@ -69,6 +69,6 @@ public class CartService {
                 item.setQuantity(item.getQuantity()-quantity);
             }
         }
-        return cartRepository.save(cart);
+        return cart;
     }
 }

@@ -2,10 +2,8 @@ package com.trevora.ecommerce.controller;
 
 import com.trevora.ecommerce.dto.AddToCartRequestDto;
 import com.trevora.ecommerce.dto.CartResponseDto;
-import com.trevora.ecommerce.entity.Cart;
 import com.trevora.ecommerce.orchestrator.CartOrchestrator;
 import com.trevora.ecommerce.security.CustomUserDetails;
-import com.trevora.ecommerce.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -11,7 +11,9 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND("product not found",HttpStatus.NOT_FOUND),
     USER_NOT_FOUND("user not found",HttpStatus.NOT_FOUND),
     CART_NOT_FOUND("cart not found",HttpStatus.NOT_FOUND),
-    CART_ITEM_NOT_FOUND("item not found",HttpStatus.NOT_FOUND);
+    CART_ITEM_NOT_FOUND("item not found",HttpStatus.NOT_FOUND),
+    WISHLIST_NOT_FOUND("wishlist not found",HttpStatus.NOT_FOUND),
+    WISHLIST_ITEM_NOT_FOUND("item not found",HttpStatus.NOT_FOUND);
 
 
     private final String message;

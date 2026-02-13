@@ -5,6 +5,6 @@ import java.time.Instant;
 public record RegisterResponseDto(
         Instant createdAt,
         Long user_id,
-        String fullName,
-        String email
+        String email,
+        String fullName
 ) {}
