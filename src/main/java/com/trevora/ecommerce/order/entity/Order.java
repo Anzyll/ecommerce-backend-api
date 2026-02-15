@@ -1,6 +1,7 @@
 package com.trevora.ecommerce.order.entity;
 
 import com.trevora.ecommerce.common.entity.User;
+
 import com.trevora.ecommerce.common.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +22,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
@@ -42,5 +43,15 @@ public class Order {
     private List<OrderItem> items = new ArrayList<>();
 
     @Column(nullable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt=Instant.now();
+
+    public void markPaid() {
+        if (this.status != OrderStatus.CREATED) {
+            throw new IllegalStateException(
+                    "Order cannot be marked as PAID from status: " + this.status
+            );
+        }
+        this.status = OrderStatus.PAID;
+    }
+
 }

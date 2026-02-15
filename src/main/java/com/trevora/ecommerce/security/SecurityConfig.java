@@ -30,12 +30,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
         @Bean
         public AuthenticationManager authenticationManager(
-                AuthenticationConfiguration config)  {
+                AuthenticationConfiguration config) throws Exception {
             return config.getAuthenticationManager();
         }
 
         @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http)  {
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
             http
                     .csrf(AbstractHttpConfigurer::disable)
