@@ -1,9 +1,8 @@
 package com.trevora.ecommerce.security;
 
-import com.trevora.ecommerce.entity.User;
+import com.trevora.ecommerce.common.entity.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -28,7 +27,7 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
-    public @Nullable String getPassword() {
+    public  String getPassword() {
         return user.getPassword();
     }
 

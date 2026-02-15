@@ -42,7 +42,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                     .sessionManagement(sm ->
                             sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                     .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/api/auth/**").permitAll()
+                            .requestMatchers("/api/auth/**",
+                                    "/swagger-ui/**",
+                                    "/v3/api-docs/**",
+                                    "/swagger-ui.html")
+                            .permitAll()
                             .anyRequest().authenticated()
                     )
                     .addFilterBefore(jwtFilter,
