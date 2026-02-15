@@ -34,6 +34,11 @@ public class OrderOrchestrator {
             }
         }
         Order order = orderService.createOrder(cart,shippingAddress);
+        boolean paymentSuccess = true;
+
+        if (paymentSuccess) {
+            orderService.markPaid(order);
+        }
         cart.setStatus(CartStatus.CHECKOUT);
         cartRepository.save(cart);
 
