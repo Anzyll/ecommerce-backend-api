@@ -45,7 +45,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                             .requestMatchers("/api/auth/**",
                                     "/swagger-ui/**",
                                     "/v3/api-docs/**",
-                                    "/swagger-ui.html")
+                                    "/swagger-ui.html",
+                                      "/api/products")
                             .permitAll()
                             .anyRequest().authenticated()
                     )

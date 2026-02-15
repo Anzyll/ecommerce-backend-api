@@ -1,5 +1,6 @@
 package com.trevora.ecommerce.cart.service;
 
+import com.trevora.ecommerce.cart.dto.CartItemResponseDto;
 import com.trevora.ecommerce.cart.entity.Cart;
 import com.trevora.ecommerce.cart.entity.CartItem;
 import com.trevora.ecommerce.common.enums.CartStatus;
@@ -14,6 +15,8 @@ import com.trevora.ecommerce.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -71,5 +74,16 @@ public class CartService {
             }
         }
         return cart;
+    }
+
+    public List<CartItemResponseDto> viewCart(Long userId) {
+        return cartItemRepository.findAllByCart_User_UserIdAndCart_Status(userId,CartStatus.ACTIVE)
+                .stream()
+                .map(item->new CartItemResponseDto(
+                        item.getId(),
+                        item.getProduct().getName(),
+                        item.getQuantity()
+                ))
+                .toList();
     }
 }

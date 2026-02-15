@@ -6,6 +6,7 @@ import com.trevora.ecommerce.order.dto.OrderResponseDto;
 import com.trevora.ecommerce.order.orchestrator.OrderOrchestrator;
 import com.trevora.ecommerce.order.service.OrderService;
 import com.trevora.ecommerce.security.CustomUserDetails;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/orders")
+@Tag(name = " Orders", description = "Manage customer orders")
 public class OrderController {
     private  final OrderOrchestrator orderOrchestrator;
     private final OrderService orderService;

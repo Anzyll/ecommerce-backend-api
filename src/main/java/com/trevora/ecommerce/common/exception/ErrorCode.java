@@ -16,7 +16,9 @@ public enum ErrorCode {
     WISHLIST_ITEM_NOT_FOUND("item not found",HttpStatus.NOT_FOUND),
     PASSWORD_MISMATCH("password does not match",HttpStatus.BAD_REQUEST),
     ADDRESS_NOT_FOUND("no address found for the user",HttpStatus.NOT_FOUND),
-    INSUFICIENT_STOCK("insuficient stock for the product",HttpStatus.BAD_REQUEST);
+    INSUFICIENT_STOCK("insuficient stock for the product",HttpStatus.BAD_REQUEST),
+    INVALID_REFRESH_TOKEN("refresh token is invalid",HttpStatus.BAD_REQUEST),
+    EXPIRED_REFRESH_TOKEN("refresh token is expired",HttpStatus.BAD_REQUEST);
 
 
     private final String message;

@@ -3,6 +3,7 @@ package com.trevora.ecommerce.wishlist.service;
 import com.trevora.ecommerce.common.entity.User;
 import com.trevora.ecommerce.product.exception.ProductNotFoundException;
 import com.trevora.ecommerce.common.exception.UserNotFoundException;
+import com.trevora.ecommerce.wishlist.dto.WishlistItemResponseDto;
 import com.trevora.ecommerce.wishlist.entity.Wishlist;
 import com.trevora.ecommerce.wishlist.entity.WishlistItem;
 import com.trevora.ecommerce.wishlist.exception.WishlistItemNotFoundException;
@@ -13,6 +14,8 @@ import com.trevora.ecommerce.wishlist.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -54,5 +57,15 @@ public class WishlistService {
                 .orElseThrow(WishlistItemNotFoundException::new);
         wishlist.getItems().remove(item);
         return wishlist;
+    }
+
+    public List<WishlistItemResponseDto> viewWishlist(Long userId) {
+       return wishlistItemRepository.findAllByWishlist_User_UserId(userId)
+               .stream()
+               .map(item->new WishlistItemResponseDto(
+                       item.getId(),
+                       item.getProduct().getName()
+               ))
+               .toList();
     }
 }
