@@ -59,13 +59,7 @@ public class WishlistService {
         return wishlist;
     }
 
-    public List<WishlistItemResponseDto> viewWishlist(Long userId) {
-       return wishlistItemRepository.findAllByWishlist_User_UserId(userId)
-               .stream()
-               .map(item->new WishlistItemResponseDto(
-                       item.getId(),
-                       item.getProduct().getName()
-               ))
-               .toList();
+    public List<WishlistItem> viewWishlist(Long userId) {
+       return wishlistItemRepository.findAllByWishlist_User_UserId(userId);
     }
 }

@@ -38,6 +38,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
             http
+                    .cors(cors -> {})
                     .csrf(AbstractHttpConfigurer::disable)
                     .sessionManagement(sm ->
                             sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -46,7 +47,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                                     "/swagger-ui/**",
                                     "/v3/api-docs/**",
                                     "/swagger-ui.html",
-                                      "/api/products")
+                                      "/api/products/**")
                             .permitAll()
                             .anyRequest().authenticated()
                     )

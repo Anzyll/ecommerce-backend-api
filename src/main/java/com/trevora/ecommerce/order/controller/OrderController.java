@@ -18,10 +18,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/orders")
-@Tag(name = " Orders", description = "Manage customer orders")
+@Tag(name = " Orders")
 public class OrderController {
     private  final OrderOrchestrator orderOrchestrator;
-    private final OrderService orderService;
     @PostMapping("/checkout")
     @ResponseStatus(HttpStatus.CREATED)
     public OrderResponseDto checkout(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody CheckoutRequestDto request) {
@@ -30,6 +29,6 @@ public class OrderController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<OrderResponseDto> getMyOrders(@AuthenticationPrincipal CustomUserDetails user){
-        return orderService.getOrderHistory(user.getUser().getUserId());
+        return orderOrchestrator.getOrderHistory(user.getUser().getUserId());
     }
 }

@@ -3,6 +3,7 @@ package com.trevora.ecommerce.order.orchestrator;
 import com.trevora.ecommerce.cart.entity.Cart;
 import com.trevora.ecommerce.cart.entity.CartItem;
 import com.trevora.ecommerce.cart.exception.CartItemNotFoundException;
+import com.trevora.ecommerce.cart.exception.CartNotFoundException;
 import com.trevora.ecommerce.cart.repository.CartRepository;
 import com.trevora.ecommerce.common.enums.CartStatus;
 import com.trevora.ecommerce.common.exception.InsufficientStockException;
@@ -24,7 +25,7 @@ public class OrderOrchestrator {
     @Transactional
     public OrderResponseDto checkout(Long userId, String shippingAddress) {
         Cart cart = cartRepository.findByUser_UserIdAndStatus(userId, CartStatus.ACTIVE)
-                .orElseThrow(CartItemNotFoundException::new);
+                .orElseThrow(CartNotFoundException::new);
         if (cart.getCartItem().isEmpty()) {
             throw new CartItemNotFoundException();
         }
@@ -34,29 +35,36 @@ public class OrderOrchestrator {
             }
         }
         Order order = orderService.createOrder(cart,shippingAddress);
-        boolean paymentSuccess = true;
-
-        if (paymentSuccess) {
-            orderService.markPaid(order);
-        }
+        orderService.markPaid(order);
         cart.setStatus(CartStatus.CHECKOUT);
         cartRepository.save(cart);
+        return mapToOrderResponse(order);
+    }
 
-        List<OrderItemResponseDto> items =
-                order.getItems().stream()
-                        .map(item -> new OrderItemResponseDto(
-                                item.getProduct().getProductId(),
-                                item.getProduct().getName(),
-                                item.getPrice(),
-                                item.getQuantity()
-                        ))
-                        .toList();
+    public List<OrderResponseDto> getOrderHistory(Long userId) {
+        return orderService.getOrderHistory(userId)
+                .stream()
+                .map(this::mapToOrderResponse)
+                .toList();
 
+    }
+    private List<OrderItemResponseDto> mapOrderItems(Order order) {
+        return order.getItems()
+                .stream()
+                .map(item -> new OrderItemResponseDto(
+                        item.getProduct().getProductId(),
+                        item.getProduct().getName(),
+                        item.getPrice(),
+                        item.getQuantity()
+                ))
+                .toList();
+    }
+    private OrderResponseDto mapToOrderResponse(Order order) {
         return new OrderResponseDto(
                 order.getOrderId(),
                 order.getStatus().name(),
                 order.getTotalAmount(),
-                items,
+                mapOrderItems(order),
                 order.getShippingAddress(),
                 order.getCreatedAt()
         );

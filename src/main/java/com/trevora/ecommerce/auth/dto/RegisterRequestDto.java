@@ -13,8 +13,6 @@ public record RegisterRequestDto(
         String email,
         @NotBlank @Size(min = 8)
         @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&*]).*$",message = "invalid password format")
-        String password,
-        @NotBlank @Size(min = 8)
-        String confirmPassword
+        String password
 
 ) {}

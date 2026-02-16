@@ -5,7 +5,6 @@ import com.trevora.ecommerce.wishlist.dto.WishlistItemResponseDto;
 import com.trevora.ecommerce.wishlist.dto.WishlistResponseDto;
 import com.trevora.ecommerce.wishlist.orchestrator.WishlistOrchestrator;
 import com.trevora.ecommerce.security.CustomUserDetails;
-import com.trevora.ecommerce.wishlist.service.WishlistService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +17,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/wishlist")
-@Tag(name = "Wishlist", description = "Add and remove wishlist items")
+@Tag(name = "Wishlist")
 public class WishlistController {
     private final WishlistOrchestrator wishlistOrchestrator;
-    private final WishlistService wishlistService;
     @PostMapping("/items")
     @ResponseStatus(HttpStatus.CREATED)
     public WishlistResponseDto addToWishlist(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody AddToWishlistRequestDto request){
@@ -36,6 +34,6 @@ public class WishlistController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<WishlistItemResponseDto> viewWishlist(@AuthenticationPrincipal CustomUserDetails user){
-        return wishlistService.viewWishlist(user.getUser().getUserId());
+        return wishlistOrchestrator.viewWishlist(user.getUser().getUserId());
     }
 }

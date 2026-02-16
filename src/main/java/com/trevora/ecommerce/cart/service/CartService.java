@@ -1,7 +1,4 @@
 package com.trevora.ecommerce.cart.service;
-
-import com.trevora.ecommerce.cart.dto.CartItemResponseDto;
-import com.trevora.ecommerce.cart.dto.CartResponseDto;
 import com.trevora.ecommerce.cart.entity.Cart;
 import com.trevora.ecommerce.cart.entity.CartItem;
 import com.trevora.ecommerce.common.enums.CartStatus;
@@ -77,15 +74,8 @@ public class CartService {
         return cart;
     }
 
-    public List<CartItemResponseDto> viewCart(Long userId) {
-        return cartItemRepository.findAllByCart_User_UserIdAndCart_Status(userId,CartStatus.ACTIVE)
-                .stream()
-                .map(item->new CartItemResponseDto(
-                        item.getId(),
-                        item.getProduct().getName(),
-                        item.getQuantity()
-                ))
-                .toList();
+    public List<CartItem> viewCart(Long userId) {
+        return cartItemRepository.findAllByCart_User_UserIdAndCart_Status(userId,CartStatus.ACTIVE);
     }
 
     @Transactional

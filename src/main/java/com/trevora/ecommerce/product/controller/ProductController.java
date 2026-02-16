@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
-@Tag(name = "Product Catalog", description = "Browse and Search Products with pagination and filter")
+@Tag(name = "Product Catalog")
 public class ProductController {
     private final ProductService productService;
     @GetMapping

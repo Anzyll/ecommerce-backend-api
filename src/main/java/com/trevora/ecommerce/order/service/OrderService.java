@@ -50,30 +50,8 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public List<OrderResponseDto> getOrderHistory(Long userId) {
-      return orderRepository.findAllByUser_UserId_OrderByCreatedAtDesc(userId)
-              .stream()
-              .map(order -> {
-                  List<OrderItemResponseDto> items = order.getItems()
-                          .stream()
-                          .map(item-> new OrderItemResponseDto(
-                                  item.getProduct().getProductId(),
-                                  item.getProduct().getName(),
-                                  item.getPrice(),
-                                  item.getQuantity()
-                          ))
-                          .toList();
-                  return new OrderResponseDto(
-                          order.getOrderId(),
-                          order.getStatus().name(),
-                          order.getTotalAmount(),
-                          items,
-                          order.getShippingAddress(),
-                          order.getCreatedAt()
-                  );
-              })
-              .toList();
-
+    public List<Order> getOrderHistory(Long userId) {
+      return orderRepository.findAllByUser_UserId_OrderByCreatedAtDesc(userId);
 
     }
 }

@@ -42,4 +42,14 @@ public class WishlistOrchestrator {
                 items
         );
     }
+
+    public List<WishlistItemResponseDto> viewWishlist(Long userId) {
+        return wishlistService.viewWishlist(userId)
+                .stream()
+                .map(item->new WishlistItemResponseDto(
+                        item.getId(),
+                        item.getProduct().getName()
+                ))
+                .toList();
+    }
 }

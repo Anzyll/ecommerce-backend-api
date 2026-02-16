@@ -4,7 +4,6 @@ import com.trevora.ecommerce.cart.dto.AddToCartRequestDto;
 import com.trevora.ecommerce.cart.dto.CartItemResponseDto;
 import com.trevora.ecommerce.cart.dto.CartResponseDto;
 import com.trevora.ecommerce.cart.dto.UpdateCartRequestDto;
-import com.trevora.ecommerce.cart.entity.CartItem;
 import com.trevora.ecommerce.cart.orchestrator.CartOrchestrator;
 import com.trevora.ecommerce.cart.service.CartService;
 import com.trevora.ecommerce.security.CustomUserDetails;
@@ -20,10 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cart")
 @RequiredArgsConstructor
-@Tag(name = "Shopping Cart", description = "Add and Remove Cart Items")
+@Tag(name = "Shopping Cart")
 public class CartController {
     private final CartOrchestrator cartOrchestrator;
-    private final CartService cartService;
     @PostMapping("/items")
     @ResponseStatus(HttpStatus.CREATED)
     public CartResponseDto addToCart(@AuthenticationPrincipal CustomUserDetails user, @Valid @RequestBody AddToCartRequestDto request){
@@ -37,10 +35,11 @@ public class CartController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CartItemResponseDto> viewCart(@AuthenticationPrincipal CustomUserDetails user){
-        return cartService.viewCart(user.getUser().getUserId());
+        return cartOrchestrator.viewCart(user.getUser().getUserId());
     }
 
     @PatchMapping("/items/{itemId}")
+    @ResponseStatus(HttpStatus.OK)
     public CartResponseDto updateCartItemQuantity(@AuthenticationPrincipal CustomUserDetails user,@PathVariable Long itemId,@RequestBody UpdateCartRequestDto request){
         return  cartOrchestrator.updateCartItemQuantity(user.getUser().getUserId(),itemId,request.delta());
     }

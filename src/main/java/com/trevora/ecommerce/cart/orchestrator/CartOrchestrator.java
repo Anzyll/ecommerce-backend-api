@@ -67,4 +67,15 @@ public class CartOrchestrator {
               ))
                       .toList());
     }
+
+    public List<CartItemResponseDto> viewCart(Long userId) {
+           return cartService.viewCart(userId)
+                .stream()
+                .map(item->new CartItemResponseDto(
+                        item.getId(),
+                        item.getProduct().getName(),
+                        item.getQuantity()
+                ))
+                .toList();
+    }
 }
