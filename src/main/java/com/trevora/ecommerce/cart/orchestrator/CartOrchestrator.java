@@ -7,11 +7,10 @@ import com.trevora.ecommerce.cart.entity.Cart;
 import com.trevora.ecommerce.cart.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class CartOrchestrator {
     private final CartService cartService;
@@ -54,5 +53,18 @@ public class CartOrchestrator {
                 cart.getCartId(),
                 items
         );
+    }
+
+    public CartResponseDto updateCartItemQuantity(Long userId, Long itemId,  int delta) {
+      Cart cart =  cartService.updateCartItemQuantity(userId,itemId,delta);
+      return new CartResponseDto(
+              cart.getCartId(),
+              cart.getCartItem().stream()
+                      .map(item->new CartItemResponseDto(
+                      item.getId(),
+                      item.getProduct().getName(),
+                      item.getQuantity()
+              ))
+                      .toList());
     }
 }

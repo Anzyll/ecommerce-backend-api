@@ -1,6 +1,7 @@
 package com.trevora.ecommerce.cart.service;
 
 import com.trevora.ecommerce.cart.dto.CartItemResponseDto;
+import com.trevora.ecommerce.cart.dto.CartResponseDto;
 import com.trevora.ecommerce.cart.entity.Cart;
 import com.trevora.ecommerce.cart.entity.CartItem;
 import com.trevora.ecommerce.common.enums.CartStatus;
@@ -85,5 +86,22 @@ public class CartService {
                         item.getQuantity()
                 ))
                 .toList();
+    }
+
+    @Transactional
+    public Cart updateCartItemQuantity(Long userId, Long itemId, int delta) {
+        Cart cart = cartRepository
+                .findByUser_UserIdAndStatus(userId, CartStatus.ACTIVE)
+                .orElseThrow(CartNotFoundException::new);
+        CartItem item = cartItemRepository
+                .findByIdAndCart(itemId, cart)
+                .orElseThrow(CartItemNotFoundException::new);
+        int newQuantity = item.getQuantity() + delta;
+        if (newQuantity < 1) {
+            cartItemRepository.delete(item);
+            return cart;
+        }
+        item.setQuantity(newQuantity);
+        return cart;
     }
 }

@@ -3,6 +3,8 @@ package com.trevora.ecommerce.cart.controller;
 import com.trevora.ecommerce.cart.dto.AddToCartRequestDto;
 import com.trevora.ecommerce.cart.dto.CartItemResponseDto;
 import com.trevora.ecommerce.cart.dto.CartResponseDto;
+import com.trevora.ecommerce.cart.dto.UpdateCartRequestDto;
+import com.trevora.ecommerce.cart.entity.CartItem;
 import com.trevora.ecommerce.cart.orchestrator.CartOrchestrator;
 import com.trevora.ecommerce.cart.service.CartService;
 import com.trevora.ecommerce.security.CustomUserDetails;
@@ -36,5 +38,10 @@ public class CartController {
     @ResponseStatus(HttpStatus.OK)
     public List<CartItemResponseDto> viewCart(@AuthenticationPrincipal CustomUserDetails user){
         return cartService.viewCart(user.getUser().getUserId());
+    }
+
+    @PatchMapping("/items/{itemId}")
+    public CartResponseDto updateCartItemQuantity(@AuthenticationPrincipal CustomUserDetails user,@PathVariable Long itemId,@RequestBody UpdateCartRequestDto request){
+        return  cartOrchestrator.updateCartItemQuantity(user.getUser().getUserId(),itemId,request.delta());
     }
 }
