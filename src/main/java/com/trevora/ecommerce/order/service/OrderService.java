@@ -9,6 +9,7 @@ import com.trevora.ecommerce.order.entity.Order;
 import com.trevora.ecommerce.order.entity.OrderItem;
 import com.trevora.ecommerce.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService {
     private final OrderRepository orderRepository;
  @Transactional
@@ -40,6 +42,7 @@ public class OrderService {
         }
         order.setTotalAmount(total);
        return orderRepository.save(order);
+
     }
     public void markPaid(Order order) {
         if (order.getStatus() != OrderStatus.CREATED) {

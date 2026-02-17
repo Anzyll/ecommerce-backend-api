@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @Slf4j
@@ -15,6 +16,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
   public ResponseEntity<ApiError> handleBusinessException(BusinessException ex){
         ErrorCode errorCode = ex.getErrorCode();
+        log.warn(
+                "Business exception occurred: code={}, message={}",
+                errorCode.name(),
+                errorCode.getMessage()
+        );
+
         ApiError error = new ApiError(
                 errorCode.name(),
                 errorCode.getMessage(),
@@ -30,7 +37,15 @@ public class GlobalExceptionHandler {
   public  ResponseEntity<ApiError> handleValidation(MethodArgumentNotValidException ex){
         ErrorCode errorCode = ErrorCode.VALIDATION_ERROR;
       log.warn("Validation failed: {}", ex.getMessage());
-        ApiError error = new ApiError(
+      String validationMessage = ex.getBindingResult()
+              .getFieldErrors()
+              .stream()
+              .map(error -> error.getField() + ": " + error.getDefaultMessage())
+              .collect(Collectors.joining(", "));
+
+      log.warn("Validation failed: {}", validationMessage);
+
+      ApiError error = new ApiError(
                 errorCode.name(),
                 Objects.requireNonNull(ex.getBindingResult().getFieldError()).getDefaultMessage(),
                 errorCode.getStatus().value(),

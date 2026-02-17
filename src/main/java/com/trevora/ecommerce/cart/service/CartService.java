@@ -11,6 +11,7 @@ import com.trevora.ecommerce.cart.repository.CartItemRepository;
 import com.trevora.ecommerce.cart.repository.CartRepository;
 import com.trevora.ecommerce.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
@@ -26,13 +28,22 @@ public class CartService {
     public Cart addToCart( Long userId,Long productId,int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be greater than zero");
+
         }
         Cart cart = cartRepository.findByUser_UserIdAndStatus(userId, CartStatus.ACTIVE)
-                .orElseGet(()->createNewCart(userId));
+                .orElseGet(()-> {
+                    log.info("Creating new cart for userId={}", userId);
+                  return   createNewCart(userId);
+                });
+
         Product product = productRepository.findById(productId)
                 .orElseThrow(ProductNotFoundException::new);
         CartItem item = cartItemRepository.findByCartAndProduct(cart,product)
                 .orElseGet(() -> {
+                    log.info(
+                            "Adding product to cart userId={} productId={}",
+                            userId, productId
+                    );
                     CartItem ci = new CartItem();
                     ci.setCart(cart);
                     ci.setProduct(product);
@@ -62,6 +73,7 @@ public class CartService {
                 .orElseThrow(CartItemNotFoundException::new);
         if(quantity == null || quantity>= item.getQuantity()){
             cart.getCartItem().remove(item);
+            log.info("remove item from cart userId={} product={}",userId,productId);
         }
         else{
             if(quantity<=0){
@@ -69,6 +81,10 @@ public class CartService {
             }
             else{
                 item.setQuantity(item.getQuantity()-quantity);
+                log.info(
+                        "Cart updated userId={} productId={} quantity={}",
+                        userId, productId, item.getQuantity()
+                );
             }
         }
         return cart;
@@ -92,6 +108,10 @@ public class CartService {
             return cart;
         }
         item.setQuantity(newQuantity);
+        log.info(
+                "Cart item quantity updated userId={} itemId={} quantity={}",
+                userId, itemId, newQuantity
+        );
         return cart;
     }
 }

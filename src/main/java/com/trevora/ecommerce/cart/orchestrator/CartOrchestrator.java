@@ -7,11 +7,13 @@ import com.trevora.ecommerce.cart.entity.Cart;
 import com.trevora.ecommerce.cart.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CartOrchestrator {
     private final CartService cartService;
     public CartResponseDto addToCart(Long userId, @Valid AddToCartRequestDto request) {
@@ -57,6 +59,7 @@ public class CartOrchestrator {
 
     public CartResponseDto updateCartItemQuantity(Long userId, Long itemId,  int delta) {
       Cart cart =  cartService.updateCartItemQuantity(userId,itemId,delta);
+      log.info("cart item quantity updated");
       return new CartResponseDto(
               cart.getCartId(),
               cart.getCartItem().stream()

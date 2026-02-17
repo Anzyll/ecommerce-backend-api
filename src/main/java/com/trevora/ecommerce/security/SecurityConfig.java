@@ -1,5 +1,6 @@
 package com.trevora.ecommerce.security;
 
+import com.trevora.ecommerce.common.enums.RoleName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +50,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                                     "/swagger-ui.html",
                                       "/api/products/**")
                             .permitAll()
+                            .requestMatchers("/api/admin/**")
+                            .hasRole("ADMIN")
                             .anyRequest().authenticated()
                     )
                     .addFilterBefore(jwtFilter,

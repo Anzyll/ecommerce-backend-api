@@ -2,12 +2,12 @@ package com.trevora.ecommerce.auth.service;
 
 import com.trevora.ecommerce.auth.dto.LoginResponseDto;
 import com.trevora.ecommerce.auth.entity.RefreshToken;
-import com.trevora.ecommerce.auth.repository.RefreshTokenRepository;
 import com.trevora.ecommerce.common.entity.User;
 import com.trevora.ecommerce.security.CustomUserDetails;
 import com.trevora.ecommerce.security.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
@@ -26,10 +27,13 @@ public class AuthService {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
+
+
         );
 
         CustomUserDetails userDetails =
                 (CustomUserDetails) authentication.getPrincipal();
+        log.info("User authenticated successfully email={}", email);
 
         String role = userDetails.getAuthorities()
                 .iterator().next().getAuthority();
@@ -39,6 +43,8 @@ public class AuthService {
 
         RefreshToken refreshToken =
                 refreshTokenService.create(userDetails.getUser());
+        log.debug("Refresh token issued userId={}",
+                userDetails.getUser().getUserId());
 
         ResponseCookie cookie = ResponseCookie.from(
                         "refreshToken", refreshToken.getToken())

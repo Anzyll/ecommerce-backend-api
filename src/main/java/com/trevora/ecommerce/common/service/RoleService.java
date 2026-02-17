@@ -14,6 +14,7 @@ public class RoleService {
        return roleRepository.findByTitle("ROLE_USER")
                .orElseThrow(RoleNotFoundException::new);
 
+
     }
 
 }

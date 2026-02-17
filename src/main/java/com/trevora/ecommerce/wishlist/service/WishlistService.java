@@ -12,6 +12,7 @@ import com.trevora.ecommerce.product.repository.ProductRepository;
 import com.trevora.ecommerce.wishlist.repository.WishlistItemRepository;
 import com.trevora.ecommerce.wishlist.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class WishlistService {
     private final WishlistRepository wishlistRepository;
     private final WishlistItemRepository wishlistItemRepository;
@@ -35,6 +37,9 @@ public class WishlistService {
             item.setWishlist(wishlist);
             item.setProduct(product);
             wishlist.getItems().add(item);
+            log.info("item added to wishlist of userId={} productId={}"
+                    ,userId,productId);
+
         }
        return wishlist;
     }
@@ -56,6 +61,8 @@ public class WishlistService {
         WishlistItem item = wishlistItemRepository.findByProductAndWishlist(product,wishlist)
                 .orElseThrow(WishlistItemNotFoundException::new);
         wishlist.getItems().remove(item);
+        log.info("item removed from wishlist userId={},productId={}",
+                userId,productId);
         return wishlist;
     }
 

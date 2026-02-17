@@ -12,6 +12,7 @@ import com.trevora.ecommerce.order.dto.OrderResponseDto;
 import com.trevora.ecommerce.order.entity.Order;
 import com.trevora.ecommerce.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class OrderOrchestrator {
     private final OrderService orderService;
     private final CartRepository cartRepository;
@@ -35,6 +37,7 @@ public class OrderOrchestrator {
             }
         }
         Order order = orderService.createOrder(cart,shippingAddress);
+        log.info("order created userId={}",userId);
         orderService.markPaid(order);
         cart.setStatus(CartStatus.CHECKOUT);
         cartRepository.save(cart);
