@@ -18,7 +18,8 @@ public enum ErrorCode {
     ADDRESS_NOT_FOUND("no address found for the user",HttpStatus.NOT_FOUND),
     INSUFICIENT_STOCK("insuficient stock for the product",HttpStatus.BAD_REQUEST),
     INVALID_REFRESH_TOKEN("refresh token is invalid",HttpStatus.BAD_REQUEST),
-    EXPIRED_REFRESH_TOKEN("refresh token is expired",HttpStatus.BAD_REQUEST);
+    EXPIRED_REFRESH_TOKEN("refresh token is expired",HttpStatus.BAD_REQUEST),
+    PROFILE_NOT_FOUND("user profile not found",HttpStatus.NOT_FOUND);
 
 
     private final String message;
