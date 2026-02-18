@@ -48,4 +48,8 @@ public class AdminProductOrchestrator {
                        product.getActivity().getName()
                ));
     }
+
+    public void deleteProduct(Long productId) {
+          adminProductService.deleteProduct(productId);
+    }
 }

@@ -34,4 +34,10 @@ public class AdminProductController {
         return adminProductOrchestrator.getAllProducts(pageable,category,activity);
     }
 
+    @DeleteMapping("/{productId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void   deleteProduct(@PathVariable Long productId){
+       adminProductOrchestrator.deleteProduct(productId);
+    }
+
 }

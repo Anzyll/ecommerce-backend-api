@@ -3,6 +3,7 @@ package com.trevora.ecommerce.admin.product.service;
 import com.trevora.ecommerce.product.entity.Activity;
 import com.trevora.ecommerce.product.entity.Category;
 import com.trevora.ecommerce.product.entity.Product;
+import com.trevora.ecommerce.product.exception.ProductNotFoundException;
 import com.trevora.ecommerce.product.repository.ProductRepository;
 import com.trevora.ecommerce.product.service.ActivityService;
 import com.trevora.ecommerce.product.service.CategoryService;
@@ -48,5 +49,12 @@ public class AdminProductService {
         }
         log.info("admin viewed products");
         return productPage;
+    }
+
+    public void deleteProduct(Long productId) {
+      Product product = productRepository.findById(productId)
+              .orElseThrow(ProductNotFoundException::new);
+      productRepository.delete(product);
+      log.info("admin deleted the product of productId={}",productId);
     }
 }
