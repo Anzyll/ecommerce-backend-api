@@ -2,10 +2,12 @@ package com.trevora.ecommerce.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.nio.file.AccessDeniedException;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -55,4 +57,21 @@ public class GlobalExceptionHandler {
                 .badRequest()
                 .body(error);
    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiError> handleBadCredentials(BadCredentialsException ex) {
+        ErrorCode errorCode = ErrorCode.INVALID_CREDENTIALS;
+        log.warn("Invalid credentials for login ");
+        ApiError error = new ApiError(
+                errorCode.name(),
+                "Invalid email or password",
+                errorCode.getStatus().value(),
+                Instant.now()
+        );
+        return ResponseEntity
+                .status(errorCode.getStatus())
+                .body(error);
+    }
+
+
 }

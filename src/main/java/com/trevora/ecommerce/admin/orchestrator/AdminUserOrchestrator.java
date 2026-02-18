@@ -1,17 +1,19 @@
 package com.trevora.ecommerce.admin.orchestrator;
 
+import com.trevora.ecommerce.admin.dto.AdminOrderItemResponseDto;
+import com.trevora.ecommerce.admin.dto.AdminOrderResponseDto;
 import com.trevora.ecommerce.admin.dto.AdminUserProfileDto;
 import com.trevora.ecommerce.admin.dto.AdminUserResponseDto;
 import com.trevora.ecommerce.admin.service.AdminUserService;
 import com.trevora.ecommerce.common.entity.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class AdminUserOrchestrator {
     private final AdminUserService adminUserService;
@@ -33,6 +35,28 @@ public class AdminUserOrchestrator {
                profile.getUser().getEmail(),
                profile.getCreatedAt()
        );
+
+    }
+
+    public List<AdminOrderResponseDto> getOrdersByUser(Long userId) {
+        return adminUserService.getOrdersByUser(userId)
+                .stream()
+                .map(order -> new AdminOrderResponseDto(
+                        order.getOrderId(),
+                        order.getUser().getEmail(),
+                        order.getItems().stream().map(orderItem -> new AdminOrderItemResponseDto(
+                                orderItem.getOrderItemId(),
+                                orderItem.getOrder().getOrderId(),
+                                orderItem.getProduct().getName(),
+                                orderItem.getQuantity(),
+                                orderItem.getPrice()
+                        )).toList(),
+                        order.getStatus().name(),
+                        order.getTotalAmount(),
+                        order.getCreatedAt(),
+                        order.getShippingAddress()
+                ))
+                .toList();
 
     }
 }

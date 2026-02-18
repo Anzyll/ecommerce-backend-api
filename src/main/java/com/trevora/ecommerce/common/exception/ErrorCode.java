@@ -14,12 +14,13 @@ public enum ErrorCode {
     CART_ITEM_NOT_FOUND("item not found",HttpStatus.NOT_FOUND),
     WISHLIST_NOT_FOUND("wishlist not found",HttpStatus.NOT_FOUND),
     WISHLIST_ITEM_NOT_FOUND("item not found",HttpStatus.NOT_FOUND),
-    PASSWORD_MISMATCH("password does not match",HttpStatus.BAD_REQUEST),
     ADDRESS_NOT_FOUND("no address found for the user",HttpStatus.NOT_FOUND),
-    INSUFICIENT_STOCK("insuficient stock for the product",HttpStatus.BAD_REQUEST),
+    INSUFFICIENT_STOCK("insufficient stock for the product",HttpStatus.BAD_REQUEST),
     INVALID_REFRESH_TOKEN("refresh token is invalid",HttpStatus.BAD_REQUEST),
     EXPIRED_REFRESH_TOKEN("refresh token is expired",HttpStatus.BAD_REQUEST),
-    PROFILE_NOT_FOUND("user profile not found",HttpStatus.NOT_FOUND);
+    PROFILE_NOT_FOUND("user profile not found",HttpStatus.NOT_FOUND),
+    ACCESS_DENIED("access denied",HttpStatus.UNAUTHORIZED);
+
 
 
     private final String message;

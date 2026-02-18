@@ -1,6 +1,6 @@
 package com.trevora.ecommerce.security;
 
-import com.trevora.ecommerce.common.enums.RoleName;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,6 +53,28 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                             .requestMatchers("/api/admin/**")
                             .hasRole("ADMIN")
                             .anyRequest().authenticated()
+                    )
+                    .exceptionHandling(ex -> ex
+                            .authenticationEntryPoint((request, response, exception) -> {
+                                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                                response.setContentType("application/json");
+                                response.getWriter().write("""
+                    {
+                      "code": "UNAUTHORIZED",
+                      "message": "Authentication required"
+                    }
+                """);
+                            })
+                            .accessDeniedHandler((request, response, exception) -> {
+                                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                                response.setContentType("application/json");
+                                response.getWriter().write("""
+                    {
+                      "code": "ACCESS_DENIED",
+                      "message": "Access denied"
+                    }
+                """);
+                            })
                     )
                     .addFilterBefore(jwtFilter,
                             UsernamePasswordAuthenticationFilter.class);

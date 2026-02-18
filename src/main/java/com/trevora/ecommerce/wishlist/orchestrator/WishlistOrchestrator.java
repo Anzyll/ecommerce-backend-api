@@ -6,11 +6,11 @@ import com.trevora.ecommerce.wishlist.dto.WishlistResponseDto;
 import com.trevora.ecommerce.wishlist.entity.Wishlist;
 import com.trevora.ecommerce.wishlist.service.WishlistService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class WishlistOrchestrator {
     private final WishlistService wishlistService;

@@ -5,9 +5,9 @@ import com.trevora.ecommerce.auth.dto.LoginResponseDto;
 import com.trevora.ecommerce.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class LoginOrchestrator {
 

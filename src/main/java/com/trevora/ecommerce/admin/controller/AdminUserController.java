@@ -1,5 +1,6 @@
 package com.trevora.ecommerce.admin.controller;
 
+import com.trevora.ecommerce.admin.dto.AdminOrderResponseDto;
 import com.trevora.ecommerce.admin.dto.AdminUserProfileDto;
 import com.trevora.ecommerce.admin.dto.AdminUserResponseDto;
 import com.trevora.ecommerce.admin.orchestrator.AdminUserOrchestrator;
@@ -27,5 +28,10 @@ public class AdminUserController {
     @GetMapping("/{userId}")
     public AdminUserProfileDto getProfileByUser(@PathVariable Long userId){
         return adminUserOrchestrator.getProfileByUser(userId);
+    }
+
+    @GetMapping("/{userId}/orders")
+    public List<AdminOrderResponseDto> getOrdersByUser(@PathVariable Long userId){
+        return adminUserOrchestrator.getOrdersByUser(userId);
     }
 }

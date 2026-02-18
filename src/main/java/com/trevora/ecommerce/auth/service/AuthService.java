@@ -28,9 +28,7 @@ public class AuthService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
 
-
         );
-
         CustomUserDetails userDetails =
                 (CustomUserDetails) authentication.getPrincipal();
         log.info("User authenticated successfully email={}", email);
