@@ -19,7 +19,10 @@ public enum ErrorCode {
     INVALID_REFRESH_TOKEN("refresh token is invalid",HttpStatus.BAD_REQUEST),
     EXPIRED_REFRESH_TOKEN("refresh token is expired",HttpStatus.BAD_REQUEST),
     PROFILE_NOT_FOUND("user profile not found",HttpStatus.NOT_FOUND),
-    ACCESS_DENIED("access denied",HttpStatus.UNAUTHORIZED);
+    ACCESS_DENIED("access denied",HttpStatus.UNAUTHORIZED),
+    CATEGORY_NOT_FOUND("category not found",HttpStatus.NOT_FOUND),
+    ACTIVITY_NOT_FOUND("activity not found",HttpStatus.NOT_FOUND);
+
 
 
 

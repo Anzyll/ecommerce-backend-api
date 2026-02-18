@@ -1,6 +1,4 @@
-package com.trevora.ecommerce.admin.dto;
-
-import com.trevora.ecommerce.common.entity.User;
+package com.trevora.ecommerce.admin.user.dto;
 
 import java.math.BigDecimal;
 import java.time.Instant;

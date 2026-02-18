@@ -1,14 +1,13 @@
-package com.trevora.ecommerce.admin.orchestrator;
+package com.trevora.ecommerce.admin.user.orchestrator;
 
-import com.trevora.ecommerce.admin.dto.AdminOrderItemResponseDto;
-import com.trevora.ecommerce.admin.dto.AdminOrderResponseDto;
-import com.trevora.ecommerce.admin.dto.AdminUserProfileDto;
-import com.trevora.ecommerce.admin.dto.AdminUserResponseDto;
-import com.trevora.ecommerce.admin.service.AdminUserService;
+import com.trevora.ecommerce.admin.user.dto.AdminOrderItemResponseDto;
+import com.trevora.ecommerce.admin.user.dto.AdminOrderResponseDto;
+import com.trevora.ecommerce.admin.user.dto.AdminUserProfileDto;
+import com.trevora.ecommerce.admin.user.dto.AdminUserResponseDto;
+import com.trevora.ecommerce.admin.user.service.AdminUserService;
 import com.trevora.ecommerce.common.entity.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,4 +58,5 @@ public class AdminUserOrchestrator {
                 .toList();
 
     }
+
 }

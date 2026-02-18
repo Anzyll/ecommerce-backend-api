@@ -1,4 +1,4 @@
-package com.trevora.ecommerce.admin.dto;
+package com.trevora.ecommerce.admin.user.dto;
 
 
 public record AdminUserResponseDto(

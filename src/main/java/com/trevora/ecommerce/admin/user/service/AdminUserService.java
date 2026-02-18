@@ -1,4 +1,4 @@
-package com.trevora.ecommerce.admin.service;
+package com.trevora.ecommerce.admin.user.service;
 
 import com.trevora.ecommerce.admin.exception.ProfileNotFoundException;
 import com.trevora.ecommerce.common.entity.Profile;
