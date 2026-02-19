@@ -3,6 +3,7 @@ package com.trevora.ecommerce.admin.report.controller;
 import com.trevora.ecommerce.admin.report.dto.AdminReportOrderResponseDto;
 import com.trevora.ecommerce.admin.report.orchestrator.AdminReportOrchestrator;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.security.PermitAll;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
@@ -27,5 +28,17 @@ public class AdminReportController {
     public Page<AdminReportOrderResponseDto> getAllOrders(
             @ParameterObject Pageable pageable){
         return adminReportOrchestrator.getAllOrders(pageable);
+    }
+
+    @GetMapping("/products-sold")
+    @PermitAll
+    @ResponseStatus(HttpStatus.OK)
+    public Integer getTotalProductsSold(){
+      return   adminReportOrchestrator.getTotalProductsSold();
+    }
+
+    @GetMapping("/total-revenue")
+    public Integer getTotalRevenue(){
+        return adminReportOrchestrator.getTotalRevenue();
     }
 }

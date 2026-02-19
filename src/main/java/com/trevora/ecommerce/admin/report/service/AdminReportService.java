@@ -1,5 +1,6 @@
 package com.trevora.ecommerce.admin.report.service;
 
+import com.trevora.ecommerce.common.enums.OrderStatus;
 import com.trevora.ecommerce.order.entity.Order;
 import com.trevora.ecommerce.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +21,13 @@ public class AdminReportService {
         Page<Order> page =  orderRepository.findAll(pageRequest);
         log.info("admin view all orders ");
         return page;
+    }
+
+    public Integer getTotalProductsSold() {
+      return  orderRepository.getTotalProductsSold(OrderStatus.PAID);
+    }
+
+    public Integer getTotalRevenue() {
+        return orderRepository.getTotalRevenue(OrderStatus.PAID);
     }
 }

@@ -31,4 +31,12 @@ public class AdminReportOrchestrator {
               order.getCreatedAt()
       ));
     }
+
+    public Integer getTotalProductsSold() {
+       return adminReportService.getTotalProductsSold();
+    }
+
+    public Integer getTotalRevenue() {
+       return adminReportService.getTotalRevenue();
+    }
 }
