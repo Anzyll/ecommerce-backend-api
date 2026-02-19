@@ -3,6 +3,7 @@ package com.trevora.ecommerce.admin.product.orchestrator;
 import com.trevora.ecommerce.admin.product.dto.AdminAddProductRequestDto;
 import com.trevora.ecommerce.admin.product.dto.AdminAddProductResponseDto;
 import com.trevora.ecommerce.admin.product.dto.AdminProductResponseDto;
+import com.trevora.ecommerce.admin.product.dto.AdminUpdateProductRequestDto;
 import com.trevora.ecommerce.admin.product.service.AdminProductService;
 import com.trevora.ecommerce.product.entity.Product;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,21 @@ public class AdminProductOrchestrator {
 
     public void deleteProduct(Long productId) {
           adminProductService.deleteProduct(productId);
+    }
+
+    public AdminAddProductResponseDto updateProduct(Long productId, AdminUpdateProductRequestDto request) {
+       Product product = adminProductService.updateProduct(productId,request);
+
+       return new AdminAddProductResponseDto(
+               product.getProductId(),
+               product.getName(),
+               product.getPrice(),
+               product.getStock(),
+               product.getImage(),
+               product.getDescription(),
+               product.getCategory().getName(),
+               product.getActivity().getName(),
+               product.getCreatedAt()
+       );
     }
 }
