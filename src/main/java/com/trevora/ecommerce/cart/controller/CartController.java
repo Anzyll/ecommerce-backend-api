@@ -34,7 +34,7 @@ public class CartController {
     }
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CartItemResponseDto> viewCart(@AuthenticationPrincipal CustomUserDetails user){
+    public CartResponseDto viewCart(@AuthenticationPrincipal CustomUserDetails user){
         return cartOrchestrator.viewCart(user.getUser().getUserId());
     }
 

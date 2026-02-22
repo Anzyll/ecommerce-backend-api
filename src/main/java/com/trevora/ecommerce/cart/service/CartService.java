@@ -94,6 +94,13 @@ public class CartService {
         return cartItemRepository.findAllByCart_User_UserIdAndCart_Status(userId,CartStatus.ACTIVE);
     }
 
+    @Transactional(readOnly = true)
+    public Cart getActiveCart(Long userId) {
+        return cartRepository
+                .findByUser_UserIdAndStatus(userId, CartStatus.ACTIVE)
+                .orElseThrow(CartNotFoundException::new);
+    }
+
     @Transactional
     public Cart updateCartItemQuantity(Long userId, Long itemId, int delta) {
         Cart cart = cartRepository

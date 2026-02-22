@@ -19,8 +19,9 @@ public class WishlistOrchestrator {
        List<WishlistItemResponseDto> items = wishlist.getItems()
                .stream()
                .map(item-> new WishlistItemResponseDto(
-                   item.getId(),
-                   item.getProduct().getName()
+                       item.getId(),
+                       item.getProduct().getName(),
+                       item.getProduct().getImage()
                ))
                .toList();
        return  new WishlistResponseDto(
@@ -34,7 +35,8 @@ public class WishlistOrchestrator {
         List<WishlistItemResponseDto> items = wishlist.getItems()
                 .stream().map(item->new WishlistItemResponseDto(
                         item.getId(),
-                        item.getProduct().getName()
+                        item.getProduct().getName(),
+                        item.getProduct().getImage()
                 ))
                 .toList();
         return new WishlistResponseDto(
@@ -48,7 +50,8 @@ public class WishlistOrchestrator {
                 .stream()
                 .map(item->new WishlistItemResponseDto(
                         item.getId(),
-                        item.getProduct().getName()
+                        item.getProduct().getName(),
+                        item.getProduct().getImage()
                 ))
                 .toList();
     }

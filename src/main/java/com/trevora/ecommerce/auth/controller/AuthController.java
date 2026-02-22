@@ -1,13 +1,11 @@
 package com.trevora.ecommerce.auth.controller;
 
-import com.trevora.ecommerce.auth.dto.LoginRequestDto;
-import com.trevora.ecommerce.auth.dto.LoginResponseDto;
-import com.trevora.ecommerce.auth.dto.RegisterRequestDto;
-import com.trevora.ecommerce.auth.dto.RegisterResponseDto;
+import com.trevora.ecommerce.auth.dto.*;
 import com.trevora.ecommerce.auth.orchestrator.LoginOrchestrator;
 import com.trevora.ecommerce.auth.orchestrator.RegisterOrchestrator;
 import com.trevora.ecommerce.auth.service.AuthService;
 import com.trevora.ecommerce.auth.service.RefreshTokenService;
+import com.trevora.ecommerce.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -16,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -62,6 +61,15 @@ public class AuthController {
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/me")
+    public AuthMeResponseDto me(@AuthenticationPrincipal CustomUserDetails user){
+        return new AuthMeResponseDto(
+                user.getUserId(),
+                user.getUsername(),
+                user.getRole()
+                );
     }
 
 

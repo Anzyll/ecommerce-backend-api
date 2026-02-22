@@ -23,6 +23,7 @@ public class RegisterOrchestrator {
         profile.setUser(user);
         user.setProfile(profile);
 
+
         User savedUser = userService.register(user,request.password());
         log.info("user registered successfully: userId={}",user.getUserId());
         return new RegisterResponseDto(
