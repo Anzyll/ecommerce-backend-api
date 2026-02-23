@@ -3,6 +3,7 @@ package com.trevora.ecommerce.common.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -58,7 +59,7 @@ public class GlobalExceptionHandler {
                 .body(error);
    }
 
-    @ExceptionHandler(BadCredentialsException.class)
+    @ExceptionHandler({BadCredentialsException.class ,UsernameNotFoundException.class})
     public ResponseEntity<ApiError> handleBadCredentials(BadCredentialsException ex) {
         ErrorCode errorCode = ErrorCode.INVALID_CREDENTIALS;
         log.warn("Invalid credentials for login ");

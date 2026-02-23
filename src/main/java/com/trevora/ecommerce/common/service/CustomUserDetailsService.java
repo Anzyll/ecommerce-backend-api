@@ -1,6 +1,6 @@
 package com.trevora.ecommerce.common.service;
 
-import com.trevora.ecommerce.common.exception.UserNotFoundException;
+import com.trevora.ecommerce.auth.exception.InvalidCredentialException;
 import com.trevora.ecommerce.common.repository.UserRepository;
 import com.trevora.ecommerce.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +17,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return  userRepository.findByEmailWithRole(email)
                 .map(CustomUserDetails::new)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(InvalidCredentialException::new);
     }
 }
