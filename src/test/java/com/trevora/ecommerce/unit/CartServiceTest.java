@@ -59,7 +59,7 @@ public class CartServiceTest {
 
         assertNotNull(result);
         assertEquals(1,result.getCartItem().size());
-        CartItem item = result.getCartItem().getFirst();
+        CartItem item = result.getCartItem().get(0);
         assertEquals(product, item.getProduct());
         assertEquals(quantity, item.getQuantity());
         assertEquals(cart, item.getCart());

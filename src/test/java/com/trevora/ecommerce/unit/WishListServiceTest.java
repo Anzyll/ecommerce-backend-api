@@ -77,7 +77,6 @@ public class WishListServiceTest {
         assertTrue(result.getItems().isEmpty());
     }
 
-
     @Test
     void removeFromWishlist_itemNotFound_shouldThrowException() {
         Wishlist wishlist = new Wishlist();
