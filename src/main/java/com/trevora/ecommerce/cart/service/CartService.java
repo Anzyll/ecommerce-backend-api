@@ -15,8 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -64,34 +62,18 @@ public class CartService {
     }
 
     @Transactional
-    public Cart removeFromCart(Long userId, Long productId, Integer quantity) {
-        Cart cart = cartRepository.findByUser_UserIdAndStatus(userId,CartStatus.ACTIVE)
+    public Cart removeFromCart(Long userId, Long productId) {
+        Cart cart = cartRepository.findByUser_UserIdAndStatus(userId, CartStatus.ACTIVE)
                 .orElseThrow(CartNotFoundException::new);
         Product product = productRepository.findById(productId)
                 .orElseThrow(ProductNotFoundException::new);
-        CartItem item = cartItemRepository.findByCartAndProduct(cart,product)
+        CartItem item = cartItemRepository.findByCartAndProduct(cart, product)
                 .orElseThrow(CartItemNotFoundException::new);
-        if(quantity == null || quantity>= item.getQuantity()){
-            cart.getCartItem().remove(item);
-            log.info("remove item from cart userId={} product={}",userId,productId);
-        }
-        else{
-            if(quantity<=0){
-                throw new IllegalArgumentException("quantity must be greater than zero");
-            }
-            else{
-                item.setQuantity(item.getQuantity()-quantity);
-                log.info(
-                        "Cart updated userId={} productId={} quantity={}",
-                        userId, productId, item.getQuantity()
-                );
-            }
-        }
-        return cart;
-    }
 
-    public List<CartItem> viewCart(Long userId) {
-        return cartItemRepository.findAllByCart_User_UserIdAndCart_Status(userId,CartStatus.ACTIVE);
+        cart.getCartItem().remove(item);
+        cartItemRepository.delete(item);
+        log.info("remove item from cart userId={} product={}", userId, productId);
+        return cart;
     }
 
     @Transactional(readOnly = true)

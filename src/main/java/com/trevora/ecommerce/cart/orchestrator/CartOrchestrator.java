@@ -52,11 +52,10 @@ public class CartOrchestrator {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public CartResponseDto removeFromCart(Long userId, Long productId, Integer quantity) {
+    public CartResponseDto removeFromCart(Long userId, Long productId) {
         Cart cart = cartService.removeFromCart(
                 userId,
-                productId,
-                quantity
+                productId
         );
         List<CartItemResponseDto> items =
                 cart.getCartItem().stream()

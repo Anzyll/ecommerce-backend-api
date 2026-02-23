@@ -1,14 +1,18 @@
 package com.trevora.ecommerce.unit;
 
+import com.trevora.ecommerce.auth.dto.RegisterRequestDto;
 import com.trevora.ecommerce.auth.exception.UserAlreadyExistsException;
 import com.trevora.ecommerce.common.entity.User;
 
 import com.trevora.ecommerce.common.repository.UserRepository;
 import com.trevora.ecommerce.common.service.RoleService;
 import com.trevora.ecommerce.common.service.UserService;
+import jakarta.xml.bind.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.*;
