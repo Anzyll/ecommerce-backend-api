@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter@Setter@NoArgsConstructor
 @Entity
@@ -24,5 +26,5 @@ public class Wishlist {
     @Column(name ="created_at",nullable = false)
     private Instant createdAt=Instant.now();
     @OneToMany(mappedBy = "wishlist",orphanRemoval = true,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<WishlistItem> items  = new ArrayList<>();
+    private Set<WishlistItem> items = new HashSet<>();
 }

@@ -62,10 +62,8 @@ public class AuthServiceTest {
 
         when(authenticationManager.authenticate(any()))
                 .thenReturn(authentication);
-
         when(authentication.getPrincipal())
                 .thenReturn(userDetails);
-
         when(userDetails.getUsername())
                 .thenReturn(email);
 
@@ -115,9 +113,7 @@ public class AuthServiceTest {
 
         when(authenticationManager.authenticate(any()))
                 .thenThrow(new UsernameNotFoundException("username not found"));
-
         assertThrows(UsernameNotFoundException.class,()->authService.verify(email,password,httpServletResponse));
-
         verify(jwtUtil,never()).generateToken(any(),any());
     }
 
