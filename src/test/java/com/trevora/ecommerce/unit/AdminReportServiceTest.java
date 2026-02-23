@@ -1,6 +1,7 @@
 package com.trevora.ecommerce.unit;
 
 import com.trevora.ecommerce.admin.report.service.AdminReportService;
+import com.trevora.ecommerce.common.enums.OrderStatus;
 import com.trevora.ecommerce.order.entity.Order;
 import com.trevora.ecommerce.order.repository.OrderRepository;
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +29,7 @@ public class AdminReportServiceTest {
     private AdminReportService adminReportService;
 
     @Test
-    void getTotalProductsSold_shouldReturnCountOfPaidOrders(){
+    void getAllOrders_shouldReturnPagedOrders(){
         Pageable pageable = PageRequest.of(0,10);
         Page<Order> mockPage = new PageImpl<>(List.of(new Order()));
         when(orderRepository.findAll(any(Pageable.class)))
@@ -36,6 +37,33 @@ public class AdminReportServiceTest {
         Page<Order> result = adminReportService.getAllOrders(pageable);
            assertEquals(1,result.getTotalElements());
            verify(orderRepository).findAll(any(Pageable.class));
+    }
+
+    @Test
+    void getTotalRevenue_shouldReturnTotalRevenueGenerated(){
+        when(orderRepository.getTotalRevenue(OrderStatus.PAID))
+                .thenReturn(10000);
+        int result = adminReportService.getTotalRevenue();
+        assertEquals(10000,result);
+        verify(orderRepository).getTotalRevenue(OrderStatus.PAID);
+    }
+
+    @Test
+    void getTotalProductSold_shouldReturnTotalProductsSoldCount(){
+        when(orderRepository.getTotalRevenue(OrderStatus.PAID))
+                .thenReturn(10000);
+        int result = adminReportService.getTotalRevenue();
+        assertEquals(10000,result);
+        verify(orderRepository).getTotalRevenue(OrderStatus.PAID);
+    }
+
+    @Test
+    void getTotalProductsSold_shouldReturnCountOfPaidOrders(){
+        when(orderRepository.getTotalProductsSold(OrderStatus.PAID))
+                .thenReturn(30);
+        int result = adminReportService.getTotalProductsSold();
+        assertEquals(30,result);
+        verify(orderRepository).getTotalProductsSold(OrderStatus.PAID);
 
     }
 
