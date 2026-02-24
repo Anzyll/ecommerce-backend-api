@@ -90,7 +90,7 @@ public class CartServiceTest {
     }
 
     @Test
-     void removeItem_quantityLessThanExisting_shouldDecreaseQuantity(){
+     void removeFromCart_existingItem_shouldDeleteItem(){
         Long userId = 1L;
         Long productId = 5L;
 
