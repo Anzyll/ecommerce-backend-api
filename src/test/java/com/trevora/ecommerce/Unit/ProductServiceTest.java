@@ -1,4 +1,4 @@
-package com.trevora.ecommerce.unit;
+package com.trevora.ecommerce.Unit;
 
 import com.trevora.ecommerce.product.dto.ProductResponseDto;
 import com.trevora.ecommerce.product.entity.Activity;
@@ -10,13 +10,12 @@ import com.trevora.ecommerce.product.service.ProductService;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.math.BigDecimal;
+
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
