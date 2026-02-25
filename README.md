@@ -1,119 +1,99 @@
-🛒 E-commerce Backend API
+# 🛒 E-commerce Backend API
 
-An end-to-end e-commerce backend API built using Java and Spring Boot, designed with a focus on clean separation of concerns, security, and real-world backend design practices.
-The system implements the complete core e-commerce workflow.
+An **end-to-end e-commerce backend API** built using **Java and Spring Boot**, designed with a focus on clean separation of concerns, security, and real-world backend design practices.  
+The system implements the complete **core e-commerce workflow**.
 
-🚀 Features
-🔐 Authentication & Authorization
+---
 
-JWT-based authentication
+## 🚀 Features
 
-Role-based access control (User / Admin)
+### 🔐 Authentication & Authorization
+- JWT-based authentication
+- Role-based access control (User / Admin)
+- Secure login and registration using Spring Security
 
-Secure login and registration using Spring Security
+### 👤 User & Admin Management
+- User registration and authentication
+- Admin-controlled user management
+- Role-based endpoint protection
 
-👤 User & Admin Management
+### 🛍️ Product Catalog
+- Product and category management
+- Filtering and search support
+- Admin-controlled product creation, update, and deletion
 
-User registration and authentication
+### 🛒 Cart & Wishlist
+- User-specific cart management
+- Wishlist add/remove functionality
 
-Admin-controlled user management
+### 📦 Order Management
+- Order creation from cart
+- Order lifecycle handling
+- User order history
+- Admin access to all orders and reports
 
-Role-based endpoint protection
+### 📄 API Documentation
+- Interactive API documentation using Swagger (OpenAPI)
 
-🛍️ Product Catalog
+---
 
-Product and category management
+## 🧱 Tech Stack
 
-Filtering and search support
+### Backend
+- Java
+- Spring Boot
+- Spring Security
+- Spring Data JPA (Hibernate)
 
-Admin-controlled product creation, update, and deletion
+### Database
+- PostgreSQL
+- Flyway (Database migrations)
 
-🛒 Cart & Wishlist
+### Security
+- JWT (JSON Web Tokens)
+- Role-based authorization
 
-User-specific cart management
+### Documentation
+- Swagger / OpenAPI
 
-Wishlist add/remove functionality
+---
 
-📦 Order Management
+## 🏗️ Architecture Overview
 
-Order creation from cart
+The application follows a **feature-based modular architecture** with **layered separation of concerns**.
 
-Order lifecycle handling
+Each feature (such as Cart, Order, Admin, Auth) is implemented as a **vertical slice** containing its own controllers, orchestrators, services, and repositories.
 
-User order history
-
-Admin access to all orders and reports
-
-📄 API Documentation
-
-Interactive API documentation using Swagger (OpenAPI)
-
-🧱 Tech Stack
-
-Backend
-
-Java
-
-Spring Boot
-
-Spring Security
-
-Spring Data JPA (Hibernate)
-
-Database
-
-PostgreSQL
-
-Flyway (Database migrations)
-
-Security
-
-JWT (JSON Web Tokens)
-
-Role-based authorization
-
-Documentation
-
-Swagger / OpenAPI
-
-🏗️ Architecture Overview
-
-The application follows a feature-based modular architecture with layered separation of concerns.
-
-Each feature (such as Cart, Order, Admin, Auth) is implemented as a vertical slice containing its own controllers, orchestrators, services, and repositories.
-
-Key architectural characteristics:
-
-Feature-based modularization (vertical slicing)
-
-Layered architecture within each feature (Controller → Orchestrator → Service → Repository)
-
-Service layer acting as an Orchestrator, coordinating multi-step business workflows
-
-DTO pattern for request/response separation
-
-Repository pattern for persistence abstraction
-
-JWT filter-based security using Spring Security
-
-Configuration-as-code for security, migrations, and API documentation
+### Key Architectural Characteristics
+- Feature-based modularization (vertical slicing)
+- Layered architecture within each feature  
+  **Controller → Orchestrator → Service → Repository**
+- Service layer acting as an **Orchestrator**, coordinating multi-step business workflows
+- DTO pattern for request/response separation
+- Repository pattern for persistence abstraction
+- JWT filter-based security using Spring Security
+- Configuration-as-code for security, migrations, and API documentation
 
 This structure improves maintainability, testability, and scalability while keeping complexity under control.
 
-🗂️ Project Structure (High Level)
+---
+
+## 🗂️ Project Structure (High Level)
+
+```text
 src/main/java
-├── auth
-├── admin
-├── cart
-│   ├── controller
-│   ├── orchestrator
-│   ├── service
-│   ├── repository
-│   └── dto / entity
-├── order
-├── product
-├── security
-└── config
+ ├── auth
+ ├── admin
+ ├── cart
+ │   ├── controller
+ │   ├── orchestrator
+ │   ├── service
+ │   ├── repository
+ │   └── dto / entity
+ ├── order
+ ├── product
+ ├── security
+ └── config
 🧪 Testing
 
 Controller slice tests using @WebMvcTest
