@@ -17,7 +17,7 @@ public class User {
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id",nullable = false)
     private Role role;
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)

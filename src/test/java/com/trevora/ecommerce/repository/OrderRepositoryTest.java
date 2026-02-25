@@ -1,6 +1,6 @@
 package com.trevora.ecommerce.repository;
 
-import com.trevora.ecommerce.Integration.BaseIntegrationTest;
+import com.trevora.ecommerce.integration.BaseIntegrationTest;
 import com.trevora.ecommerce.common.entity.Role;
 import com.trevora.ecommerce.common.entity.User;
 import com.trevora.ecommerce.common.enums.OrderStatus;
