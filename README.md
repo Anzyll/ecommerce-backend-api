@@ -1,7 +1,7 @@
 # 🛒 E-commerce Backend API
 
-An **end-to-end e-commerce backend API** built using **Java and Spring Boot**, designed with a focus on clean separation of concerns, security, and real-world backend design practices.  
-The system implements the complete **core e-commerce workflow**.
+An **end-to-end e-commerce backend API** built using **Java and Spring Boot**, designed with a strong focus on clean separation of concerns, security, and real-world backend design practices.  
+The system implements the complete **core e-commerce workflow** (excluding payments and logistics by design).
 
 ---
 
@@ -62,19 +62,43 @@ The system implements the complete **core e-commerce workflow**.
 
 The application follows a **feature-based modular architecture** with **layered separation of concerns**.
 
-Each feature (such as Cart, Order, Admin, Auth) is implemented as a **vertical slice** containing its own controllers, orchestrators, services, and repositories.
+Each feature (such as Auth, Cart, Order, Admin) is implemented as a **vertical slice**, containing its own controllers, orchestrators, services, and repositories.
+
+### Layer Responsibilities
+
+#### Controller
+- Handles HTTP requests and responses
+- Performs request validation
+- Delegates execution to orchestrators
+- Contains no business logic
+
+#### Orchestrator
+- Coordinates application workflows
+- Handles request-to-domain mapping (DTO → Entity)
+- Composes multiple services to fulfill a use case
+- Manages flow control across domains
+- Keeps controllers thin and services reusable
+
+#### Service
+- Encapsulates **core business logic**
+- Enforces domain rules and validations
+- Handles state transitions
+- Interacts with repositories
+- Remains orchestration-agnostic and reusable
+
+#### Repository
+- Abstracts persistence logic
+- Uses Spring Data JPA for database access
 
 ### Key Architectural Characteristics
 - Feature-based modularization (vertical slicing)
 - Layered architecture within each feature  
   **Controller → Orchestrator → Service → Repository**
-- Service layer acting as an **Orchestrator**, coordinating multi-step business workflows
-- DTO pattern for request/response separation
+- Clear separation between orchestration and business logic
+- DTO pattern for request/response isolation
 - Repository pattern for persistence abstraction
 - JWT filter-based security using Spring Security
 - Configuration-as-code for security, migrations, and API documentation
-
-This structure improves maintainability, testability, and scalability while keeping complexity under control.
 
 ---
 
@@ -94,40 +118,44 @@ src/main/java
  ├── product
  ├── security
  └── config
-🧪 Testing
+```
 
-Controller slice tests using @WebMvcTest
+---
 
-Unit tests for service and orchestrator layers using Mockito
+## 🧪 Testing
+- Controller slice tests using `@WebMvcTest`
+- Unit tests for service layers using JUnit and Mockito
+- Repository tests using `@DataJpaTest` with Docker
+- Integration testing with Testcontainers (in progress)
 
-Repository tests using @DataJpaTest
+---
 
-Integration testing with Testcontainers (in progress)
+## ⚙️ Getting Started
 
-⚙️ Getting Started
-Prerequisites
+### Prerequisites
+- Java 17+
+- Maven
+- PostgreSQL
 
-Java 17+
+### Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Anzyll/ecommerce-backend-api.git
+   ```
+2. Configure PostgreSQL credentials in `application.yml`
+3. Flyway migrations run automatically on application startup
+4. Start the application:
+   ```bash
+   mvn spring-boot:run
+   ```
 
-Maven
+---
 
-PostgreSQL
-
-Setup
-
-Clone the repository:
-
-git clone https://github.com/Anzyll/ecommerce-backend-api.git
-
-Configure PostgreSQL credentials in application.yml
-
-Flyway migrations run automatically on application startup
-
-Start the application:
-
-mvn spring-boot:run
-📘 API Documentation
+## 📘 API Documentation
 
 Once the application is running, access Swagger UI at:
-
+```
 http://localhost:8080/swagger-ui.html
+```
+
+---
