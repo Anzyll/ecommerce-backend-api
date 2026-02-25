@@ -8,6 +8,7 @@ import com.trevora.ecommerce.cart.repository.CartRepository;
 import com.trevora.ecommerce.common.entity.Role;
 import com.trevora.ecommerce.common.entity.User;
 import com.trevora.ecommerce.common.enums.CartStatus;
+import com.trevora.ecommerce.common.exception.InsufficientStockException;
 import com.trevora.ecommerce.common.repository.RoleRepository;
 import com.trevora.ecommerce.common.repository.UserRepository;
 import com.trevora.ecommerce.order.dto.CheckoutRequestDto;
@@ -28,6 +29,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -65,6 +67,10 @@ public class OrderPlacementIntegrationTest extends BaseIntegrationTest{
     Product product;
     Category category;
     Activity activity;
+    Role role;
+    User testUser;
+    Cart cart;
+    CartItem cartItem;
 
     @BeforeEach
     void setup() {
@@ -81,35 +87,36 @@ public class OrderPlacementIntegrationTest extends BaseIntegrationTest{
         product.setPrice(BigDecimal.valueOf(50000));
         product.setStock(10);
         productRepository.save(product);
-
-    }
-
-    @Test
-    void shouldPlaceOrderAndReduceStockSuccessfully() throws Exception {
-        Role role = roleRepository.findByTitle("ROLE_USER")
+        role = roleRepository.findByTitle("ROLE_USER")
                 .orElseGet(() -> {
                     Role r = new Role();
                     r.setTitle("ROLE_USER");
                     return roleRepository.save(r);
                 });
 
-        User testUser = new User();
+        testUser = new User();
         testUser.setEmail("test@gmail.com");
         testUser.setRole(role);
         testUser.setPassword("0000");
         userRepository.save(testUser);
-        Cart cart = new Cart();
+        cart = new Cart();
         cart.setStatus(CartStatus.ACTIVE);
         cart.setCartItem(new ArrayList<>());
         cart.setUser(testUser);
 
         cartRepository.save(cart);
-        CartItem cartItem = new CartItem();
+        cartItem = new CartItem();
         cartItem.setProduct(product);
         cartItem.setQuantity(2);
         cartItem.setCart(cart);
         cartItemRepository.save(cartItem);
         cart.getCartItem().add(cartItem);
+
+    }
+
+    @Test
+    @Transactional
+    void shouldPlaceOrderAndReduceStockSuccessfully() throws Exception {
         CheckoutRequestDto requestDto = new CheckoutRequestDto("kerala");
         mockMvc.perform(post("/api/orders/checkout")
                         .with(csrf())
@@ -120,8 +127,24 @@ public class OrderPlacementIntegrationTest extends BaseIntegrationTest{
                 .andExpect(jsonPath("$.orderId").exists());
 
         List<Order> orders = orderRepository.findAll();
+        Integer stock = product.getStock();
         assertEquals(1,orders.size());
+        assertEquals(8,stock);
     }
 
+    @Test
+    void shouldFailCheckout_whenStockIsInsufficient() throws Exception {
+        CheckoutRequestDto requestDto = new CheckoutRequestDto("kerala");
+        product.setStock(1);
+        productRepository.save(product);
+        mockMvc.perform(post("/api/orders/checkout")
+                        .with(csrf())
+                        .with(user(new CustomUserDetails(testUser)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isBadRequest());
+        assertEquals(0,orderRepository.count());
+        assertEquals(1,product.getStock());
+    }
 
 }
