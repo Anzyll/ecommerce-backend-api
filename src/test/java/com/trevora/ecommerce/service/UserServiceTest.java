@@ -1,4 +1,4 @@
-package com.trevora.ecommerce.Unit;
+package com.trevora.ecommerce.service;
 
 import com.trevora.ecommerce.auth.exception.UserAlreadyExistsException;
 import com.trevora.ecommerce.common.entity.User;

@@ -1,4 +1,4 @@
-package com.trevora.ecommerce.Unit;
+package com.trevora.ecommerce.service;
 
 import com.trevora.ecommerce.product.dto.ProductResponseDto;
 import com.trevora.ecommerce.product.entity.Activity;

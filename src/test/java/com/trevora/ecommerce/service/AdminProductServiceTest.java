@@ -1,4 +1,4 @@
-package com.trevora.ecommerce.Unit;
+package com.trevora.ecommerce.service;
 
 import com.trevora.ecommerce.admin.product.dto.AdminUpdateProductRequestDto;
 import com.trevora.ecommerce.admin.product.service.AdminProductService;

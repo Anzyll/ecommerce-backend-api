@@ -1,4 +1,4 @@
-package com.trevora.ecommerce.Slice;
+package com.trevora.ecommerce.controller;
 import com.trevora.ecommerce.auth.controller.AuthController;
 import com.trevora.ecommerce.auth.dto.LoginRequestDto;
 import com.trevora.ecommerce.auth.dto.LoginResponseDto;

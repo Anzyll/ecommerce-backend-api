@@ -1,5 +1,4 @@
-package com.trevora.ecommerce.Slice;
-
+package com.trevora.ecommerce.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trevora.ecommerce.cart.controller.CartController;
 import com.trevora.ecommerce.cart.dto.AddToCartRequestDto;
@@ -17,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
