@@ -1,6 +1,5 @@
 package com.trevora.ecommerce.repository;
 
-import com.trevora.ecommerce.integration.BaseIntegrationTest;
 import com.trevora.ecommerce.common.entity.Role;
 import com.trevora.ecommerce.common.entity.User;
 import com.trevora.ecommerce.common.enums.OrderStatus;
@@ -8,20 +7,41 @@ import com.trevora.ecommerce.order.entity.Order;
 import com.trevora.ecommerce.order.entity.OrderItem;
 import com.trevora.ecommerce.order.repository.OrderRepository;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
 import com.trevora.ecommerce.product.entity.Activity;
 import com.trevora.ecommerce.product.entity.Category;
 import com.trevora.ecommerce.product.entity.Product;
+import com.trevora.ecommerce.security.PasswordConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
 import java.math.BigDecimal;
 
+@Testcontainers
 @DataJpaTest
-public class OrderRepositoryTest extends BaseIntegrationTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class OrderRepositoryTest {
+    @Container
+    static PostgreSQLContainer<?> postgres =
+            new PostgreSQLContainer<>("postgres:15");
+
+    @DynamicPropertySource
+    static void datasourceProps(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
@@ -29,16 +49,26 @@ public class OrderRepositoryTest extends BaseIntegrationTest {
 
     @BeforeEach
     void setup() {
-        Role role = testEntityManager .getEntityManager()
-                .createQuery( "select r from Role r where r.title = :title", Role.class )
-                .setParameter("title", "ROLE_USER") .getSingleResult();
+        testEntityManager.getEntityManager().createQuery("DELETE FROM OrderItem").executeUpdate();
+        testEntityManager.getEntityManager().createQuery("DELETE FROM Order").executeUpdate();
+        testEntityManager.getEntityManager().createQuery("DELETE FROM User").executeUpdate();
+
+
+        Role role = testEntityManager.getEntityManager()
+                .createQuery("SELECT r FROM Role r WHERE r.title = 'ROLE_USER'", Role.class)
+                .getResultStream()
+                .findFirst()
+                .orElseGet(() -> {
+                    Role newRole = new Role();
+                    newRole.setTitle("ROLE_USER");
+                    return testEntityManager.persist(newRole);
+                });
 
         User user = new User();
-        user.setEmail("test@gmail.com");
+        user.setEmail("t" + System.currentTimeMillis() % 100000 + "@g.com");
         user.setPassword("0000");
         user.setRole(role);
         testEntityManager.persist(user);
-
         Activity activity = new Activity();
         activity.setName("test activity");
         testEntityManager.persist(activity);

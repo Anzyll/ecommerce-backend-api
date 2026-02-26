@@ -9,6 +9,7 @@ import com.trevora.ecommerce.common.entity.User;
 import com.trevora.ecommerce.common.enums.CartStatus;
 import com.trevora.ecommerce.common.repository.RoleRepository;
 import com.trevora.ecommerce.common.repository.UserRepository;
+import com.trevora.ecommerce.integration.BaseIntegrationTest;
 import com.trevora.ecommerce.order.dto.CheckoutRequestDto;
 import com.trevora.ecommerce.order.dto.OrderResponseDto;
 import com.trevora.ecommerce.order.repository.OrderRepository;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("e2e")
-public class OrderE2ETest {
+public class OrderE2ETest extends BaseIntegrationTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
@@ -75,19 +76,6 @@ public class OrderE2ETest {
      Long before;
      Long after;
 
-    @org.springframework.boot.test.context.TestConfiguration
-    static class TestConfig {
-
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-            return NoOpPasswordEncoder.getInstance();
-        }
-
-        @Bean
-        public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-            return config.getAuthenticationManager();
-        }
-    }
 
     @BeforeEach
     void setup() {
