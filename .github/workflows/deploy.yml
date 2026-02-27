@@ -46,10 +46,10 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-backend:latest
-            docker stop ecommerce || true
-            docker rm ecommerce || true
+            docker stop ecommerce-backend || true
+            docker rm ecommerce-backend || true
             docker run -d \
-              --name ecommerce \
+              --name ecommerce-backend \
               -p 8080:8080 \
               --env-file /home/ec2-user/.env \
               ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-backend:latest
