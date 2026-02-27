@@ -1,4 +1,4 @@
-package com.trevora.ecommerce.repository;
+package com.trevora.ecommerce.integration;
 
 import com.trevora.ecommerce.common.entity.Role;
 import com.trevora.ecommerce.common.entity.User;
@@ -11,15 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.trevora.ecommerce.product.entity.Activity;
 import com.trevora.ecommerce.product.entity.Category;
 import com.trevora.ecommerce.product.entity.Product;
-import com.trevora.ecommerce.security.PasswordConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;

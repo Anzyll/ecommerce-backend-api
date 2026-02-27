@@ -1,4 +1,4 @@
-package com.trevora.ecommerce.controller;
+package com.trevora.ecommerce.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trevora.ecommerce.common.entity.Role;

@@ -1,4 +1,4 @@
-package com.trevora.ecommerce.service;
+package com.trevora.ecommerce.unit;
 
 import com.trevora.ecommerce.cart.entity.Cart;
 import com.trevora.ecommerce.cart.entity.CartItem;

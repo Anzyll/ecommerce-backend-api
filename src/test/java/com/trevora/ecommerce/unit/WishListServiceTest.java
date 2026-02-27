@@ -1,4 +1,4 @@
-package com.trevora.ecommerce.service;
+package com.trevora.ecommerce.unit;
 
 import com.trevora.ecommerce.product.entity.Product;
 import com.trevora.ecommerce.product.exception.ProductNotFoundException;
