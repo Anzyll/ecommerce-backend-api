@@ -13,18 +13,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-     
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      
       - name: Run tests
         run: |
-          ./mvn test
-         
+          ./mvnw test
 
       - name: Docker Hub Login
         uses: docker/login-action@v3
@@ -32,18 +29,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-     
       - name: Build and Push Image
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-backend:latest .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-backend:latest
 
-
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
+          username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-backend:latest
@@ -52,5 +47,5 @@ jobs:
             docker run -d \
               --name ecommerce \
               -p 8080:8080 \
-              --env-file /home/ubuntu/.env \
+              --env-file /home/ec2-user/.env \
               ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-backend:latest
