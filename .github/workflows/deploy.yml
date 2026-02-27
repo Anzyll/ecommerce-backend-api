@@ -45,24 +45,23 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Pull the latest image
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-backend:latest
-            
-            # Stop and remove the old container
             docker stop ecommerce-backend || true
             docker rm ecommerce-backend || true
             
-            # Create/Overwrite the .env file with fresh secrets
+            # This creates a clean .env file every single time you deploy
             cat <<EOF > /home/ec2-user/.env
             SPRING_DATASOURCE_URL=jdbc:postgresql://${{ secrets.DB_HOST }}:5432/${{ secrets.DB_NAME }}
             SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USER }}
             SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }}
+            SPRING_FLYWAY_URL=jdbc:postgresql://${{ secrets.DB_HOST }}:5432/${{ secrets.DB_NAME }}
+            SPRING_FLYWAY_USER=${{ secrets.DB_USER }}
+            SPRING_FLYWAY_PASSWORD=${{ secrets.DB_PASSWORD }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             JWT_EXPIRATION=${{ secrets.JWT_EXPIRATION }}
             JWT_REFRESH_EXPIRATION=${{ secrets.JWT_REFRESH_EXPIRATION }}
             EOF
 
-            # Run the new container in detached mode
             docker run -d \
               --name ecommerce-backend \
               -p 8080:8080 \
