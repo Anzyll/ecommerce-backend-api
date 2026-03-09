@@ -123,10 +123,140 @@ src/main/java
 ---
 
 ## 🧪 Testing
-- Controller slice tests using `@WebMvcTest`
-- Unit tests for service layers using JUnit and Mockito
-- Repository tests using `@DataJpaTest` with Docker
-- Integration testing with Testcontainers (in progress)
+
+The project includes multiple levels of automated testing to ensure correctness, reliability, and maintainability of the system.
+
+Unit Testing
+
+Unit tests verify individual components in isolation.
+
+Frameworks: JUnit 5, Mockito
+
+Service layer business logic is tested independently
+
+External dependencies are mocked
+
+Example scope:
+
+Business rule validation
+
+Order lifecycle logic
+
+Cart operations
+
+Product management rules
+
+Controller Testing
+
+Controller slice tests verify the HTTP layer.
+
+Implemented using @WebMvcTest
+
+Tests request validation
+
+Verifies response status and payloads
+
+Security filters and endpoint protection are validated
+
+These tests ensure that the API contract behaves correctly.
+
+Repository Testing
+
+Repository tests validate database persistence logic.
+
+Implemented using @DataJpaTest
+
+Runs against a real PostgreSQL container
+
+Uses Testcontainers for environment isolation
+
+These tests verify:
+
+Entity mapping
+
+Query correctness
+
+Database constraints
+
+Repository behavior
+
+Integration Testing
+
+Integration tests verify that multiple layers of the application work together correctly.
+
+These tests start the Spring Boot application context and validate interactions between:
+
+Controllers
+
+Orchestrators
+
+Services
+
+Repositories
+
+Database
+
+Tools used:
+
+@SpringBootTest
+
+Testcontainers for PostgreSQL
+
+Example scenarios tested:
+
+User registration flow
+
+Product creation by admin
+
+Cart to order conversion
+
+Inventory validation during order creation
+
+Integration tests ensure that real application workflows behave correctly across layers.
+
+End-to-End (E2E) Testing
+
+End-to-end tests simulate complete user workflows through the API, closely resembling real-world usage.
+
+These tests validate the entire system behavior from HTTP request → database persistence → final response.
+
+Example flows:
+
+User registration → login → JWT generation
+
+Product browsing → cart addition
+
+Checkout process → order creation
+
+Viewing order history
+
+E2E tests ensure the system functions correctly as a complete backend application.
+
+Test Infrastructure
+
+The project uses Testcontainers to provide reproducible testing environments.
+
+Advantages:
+
+Real database testing
+
+No dependency on local database setup
+
+Consistent CI/CD test execution
+
+Production-like testing environment
+
+Testing Stack
+
+JUnit 5
+
+Mockito
+
+Spring Boot Test
+
+Testcontainers
+
+PostgreSQL
 
 ---
 
