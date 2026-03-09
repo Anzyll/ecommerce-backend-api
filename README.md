@@ -148,6 +148,61 @@ Simulates complete API workflows:
 Cart to order checkout
 
 
+🐳 Docker Support
+The application can be run using Docker for consistent and portable environments.
+Build Docker Image
+docker build -t ecommerce-backend .
+Run Container
+docker run -p 8080:8080 ecommerce-backend
+Using Docker Compose (Recommended)
+Runs both the Spring Boot application and PostgreSQL database.
+docker-compose up --build
+This ensures consistent development and deployment environments.
+
+⚙️ CI/CD Pipeline (GitHub Actions)
+The project includes a CI/CD pipeline using GitHub Actions that automatically:
+Builds the project using Maven
+Runs tests
+Builds a Docker image
+Pushes the image to a container registry
+Deploys the application to AWS EC2
+
+Pipeline Stages
+Code Push
+   ↓
+Build (Maven)
+   ↓
+Run Tests
+   ↓
+Docker Build
+   ↓
+Deploy to AWS EC2
+
+This ensures automated and reliable deployments.
+
+☁️ Cloud Deployment (AWS)
+The application is deployed using AWS infrastructure.
+
+Infrastructure Components
+EC2
+Hosts the Spring Boot application container
+RDS (PostgreSQL)
+Managed relational database
+Production-grade database hosting
+
+Deployment Flow
+Developer Push → GitHub
+        ↓
+GitHub Actions CI/CD
+        ↓
+Docker Image Build
+        ↓
+Deploy to AWS EC2
+        ↓
+Application connects to AWS RDS
+
+This architecture separates application compute from database infrastructure, enabling better scalability and reliability.
+
 ---
 
 ## ⚙️ Getting Started
