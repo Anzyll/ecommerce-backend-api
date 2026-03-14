@@ -24,8 +24,6 @@ public enum ErrorCode {
     ACTIVITY_NOT_FOUND("activity not found",HttpStatus.NOT_FOUND);
 
 
-
-
     private final String message;
     private final HttpStatus status;
     ErrorCode(String message,HttpStatus status){
