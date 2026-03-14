@@ -60,7 +60,6 @@ public class AuthControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.token").value("access-token"));
         }
-
         @Test
         @WithMockUser
         void  login_failure_returns401() throws Exception {

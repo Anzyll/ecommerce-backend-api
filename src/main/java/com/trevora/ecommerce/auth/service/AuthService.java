@@ -13,6 +13,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,11 +25,13 @@ public class AuthService {
     private final RefreshTokenService refreshTokenService;
     public LoginResponseDto verify(String email, String password,
                                    HttpServletResponse response) {
+        log.error("AUTH SERVICE VERIFY CALLED");
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
 
         );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         CustomUserDetails userDetails =
                 (CustomUserDetails) authentication.getPrincipal();
         log.info("User authenticated successfully email={}", email);
